@@ -12,6 +12,7 @@
   <h3>Exemplo de pagina com Vuejs</h3>
   <p>Bem-vindo</p>
 </div>
+<Card></Card>
 <div class="media">
     <div class="media-left">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat" viewBox="0 0 16 16">
@@ -22,26 +23,34 @@
       <h4 class="media-heading">Comente:</h4>
       <form  @submit.prevent="addTodo(coment)">
      <input type="text" v-model="coment" class="form-input" placeholder="comente algo!">
-      {{ coments }}
      <button>Comentar</button>
      </form>
       <hr>
     </div>
   </div>
-<ListComent/>
+<ListComent v-for="c in coments" :key="c.id" @remove="remove"  :coment="c"/>
 </template>
 <script>
 import ListComent from './components/list-coment.vue'
+import Card from './components/card-body.vue'
 
 export default {
   name: 'App',
-  components: { ListComent },
+  components: { ListComent, Card },
   data () {
     return { coments: [], todo: { checked: false } }
   },
   methods: {
     addTodo (coment) {
       this.coments.push(coment)
+      this.c = { checked: true }
+    },
+    remove (coment) {
+      const index = this.coments.findIndex((item) => item.id === coment.id)
+
+      if (index > -1) {
+        this.coments.splice(index, 1)// não precisa reatribuir ao this.todos
+      }// pois 'splice' já altera o array original
     }
   }
 }
@@ -84,5 +93,8 @@ export default {
 .media-rigth{
   padding-left: 10%;
   font-size: small;
+}
+.card-espace{
+  padding-left: 10%;
 }
 </style>
