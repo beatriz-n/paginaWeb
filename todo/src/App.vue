@@ -21,13 +21,14 @@
     <div class="media-body">
       <h4 class="media-heading">Comente:</h4>
       <form  @submit.prevent="addTodo(coment)">
-     <input type="text" class="form-input" placeholder="comente algo!">
+     <input type="text" v-model="coment" class="form-input" placeholder="comente algo!">
+      {{ coments }}
      <button>Comentar</button>
      </form>
       <hr>
     </div>
   </div>
-<ListComent v-for="c in coments" :key="c.id"/>
+<ListComent/>
 </template>
 <script>
 import ListComent from './components/list-coment.vue'
@@ -40,9 +41,7 @@ export default {
   },
   methods: {
     addTodo (coment) {
-      coment.id = Date.now()
       this.coments.push(coment)
-      this.coment = { checked: false }
     }
   }
 }
