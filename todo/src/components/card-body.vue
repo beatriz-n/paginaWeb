@@ -16,7 +16,8 @@
 <script>
 export default {
   props: {
-    title: { type: Object, required: true }
+    title: { type: Object, required: true },
+    card: { type: Object, required: true }
   }
 }
 </script>

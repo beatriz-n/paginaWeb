@@ -5,22 +5,36 @@
     <img class="logo" alt="Vue logo" src="./assets/logo.png">
   </div>
   <div class="col-sm-1">
-    <button type="button" class="btn btn-default"><b>Login</b></button>
+    <button class="btn btn-default"><b>Login</b></button>
   </div>
 </div>
 <div class="container-fluid center">
   <h3>Exemplo de pagina com Vuejs</h3>
   <p>Bem-vindo</p>
 </div>
+<!-- login -->
+<div>
+  <form action="" v-on:submit.prevent="checkForm">
+    <input type="name" v-model="name" placeholder="Nome:">
+    <input type="email" v-model="email" placeholder="Email:">
+    <button>Enviar</button>
+  </form>
+
+  <ul>
+    <li v-for="e in errors" :key="e.id" :error="e">{{error}}</li>
+  </ul>
+</div>
 <!-- card -->
-<form class="form-card" @submit.prevent="addTitle(title)">
+<form class="form-card" @submit.prevent="addcardText(title, card)">
   <input type="text" v-model="title" class="form-input" placeholder="Digite o titulo do card"/>
   <br>
   <input type="text" v-model="card" class="form-input" placeholder="Digite algo para ficar no card"/>
   <br>
      <button class="btn-card">Concluido</button>
      </form>
-<Card v-for="t in titles" :key="t.id" :title="t"></Card>
+<Card v-for="t in titles" :key="t.id" :title="t">
+<div v-for="a in cards" :key="a.id" :card="a"></div>
+</Card>
 <!-- comentario -->
 <div class="media">
     <div class="media-left">
@@ -37,7 +51,7 @@
       <hr>
     </div>
   </div>
-<ListComent v-for="c in coments" :key="c.id" @remove="remove"  :coment="c"/>
+<ListComent v-for="c in coments" :key="c.id" @remove="remove" :coment="c"/>
 </template>
 <script>
 import ListComent from './components/list-coment.vue'
@@ -46,17 +60,36 @@ import Card from './components/card-body.vue'
 export default {
   name: 'App',
   components: { ListComent, Card },
+  dado: {
+    name: null,
+    email: null,
+    errors: []
+  },
   data () {
-    return { coments: [], titles: [], todo: { checked: false } }
+    return { name: '', email: '', coments: [], titles: [], cards: [], todo: { checked: false } }
   },
   methods: {
+    checkForm: function () {
+      this.errors = []
+
+      if (!this.name) {
+        this.errors.push('O nome deve ser preenchido')
+      }
+      if (!this.email) {
+        this.errors.push('O email deve ser preenchido')
+      }
+    },
     addTodo (coment) {
       this.coments.push(coment)
       this.c = { checked: true }
     },
-    addTitle (title) {
+    addcardText (title, card) {
       this.titles.push(title)
+      this.titles.push(card)
     },
+    // addCard (card) {
+    //   this.cards.push(card)
+    // },
     remove (coment) {
       const index = this.coments.findIndex((item) => item.id === coment.id)
 
@@ -68,7 +101,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
