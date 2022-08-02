@@ -12,7 +12,16 @@
   <h3>Exemplo de pagina com Vuejs</h3>
   <p>Bem-vindo</p>
 </div>
-<Card></Card>
+<!-- card -->
+<form class="form-card" @submit.prevent="addTitle(title)">
+  <input type="text" v-model="title" class="form-input" placeholder="Digite o titulo do card"/>
+  <br>
+  <input type="text" v-model="card" class="form-input" placeholder="Digite algo para ficar no card"/>
+  <br>
+     <button class="btn-card">Concluido</button>
+     </form>
+<Card v-for="t in titles" :key="t.id" :title="t"></Card>
+<!-- comentario -->
 <div class="media">
     <div class="media-left">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat" viewBox="0 0 16 16">
@@ -38,12 +47,15 @@ export default {
   name: 'App',
   components: { ListComent, Card },
   data () {
-    return { coments: [], todo: { checked: false } }
+    return { coments: [], titles: [], todo: { checked: false } }
   },
   methods: {
     addTodo (coment) {
       this.coments.push(coment)
       this.c = { checked: true }
+    },
+    addTitle (title) {
+      this.titles.push(title)
     },
     remove (coment) {
       const index = this.coments.findIndex((item) => item.id === coment.id)
@@ -97,4 +109,15 @@ export default {
 .card-espace{
   padding-left: 10%;
 }
+.form-card{
+  padding-left: 5%;
+  margin: 2rem;
+}
+.form-input{
+  margin: 1rem;
+}
+.btn-card{
+  margin: 1rem;
+}
+
 </style>
